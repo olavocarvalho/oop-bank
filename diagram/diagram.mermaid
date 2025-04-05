@@ -1,0 +1,89 @@
+classDiagram
+    class PessoaFisica {
+        #_nome: str
+        #_cpf: str
+        #_endereco: str
+        +__init__(nome: str, cpf: str, endereco: str)
+        +nome: property
+        +cpf: property
+        +endereco: property
+        +__str__() str
+        +__hash__() int
+        +__eq__(other) bool
+    }
+
+    class Cliente {
+        #_data_cadastro: date  
+        +__init__(nome: str, cpf: str, endereco: str)
+        +data_cadastro: property
+    }
+    PessoaFisica <|-- Cliente : inherits from
+
+    class Banco {
+        -nome: str
+        -agencia: str
+        -clientes: dict[str, Cliente]
+        -contas: dict[str, Conta]
+        +adicionar_cliente(cliente: Cliente) bool
+        +criar_abrir_conta(cpf_cliente: str) Conta | None
+        +buscar_cliente(cpf: str) Cliente | None
+        +buscar_conta_por_cpf(cpf: str) Conta | None
+        +realizar_deposito(cpf: str, valor: float) bool
+        +realizar_saque(cpf: str, valor: float) bool
+        +realizar_transferencia(cpf_origem: str, cpf_destino: str, valor: float) bool
+        +consultar_extrato(cpf: str) None
+        +listar_clientes() None
+        +listar_contas() None
+    }
+
+    class Conta {
+        -_saldo: float
+        -_numero: int
+        -_agencia: str
+        -_cliente: Cliente
+        -_historico_transacoes: list[Transacao]
+        +__init__(cliente: Cliente, agencia: str)
+        +saldo: property
+        +numero: property
+        +agencia: property
+        +cliente: property
+        +historico: property
+        +sacar(valor: float) bool
+        +depositar(valor: float) bool
+        +transferir(valor: float, conta_destino: Conta) bool
+        +exibir_extrato() None
+        #_registrar_transacao(transacao: Transacao) None
+        +__str__() str
+    }
+
+    class Transacao {
+        <<Abstract>>
+        #_timestamp: datetime
+        +valor: property <<abstract>>
+        +timestamp: property
+        +registrar(conta: Conta) bool <<abstract>>
+        +__str__() str <<abstract>> // Tornei __str__ abstrato tbm, boa prática
+    }
+
+    class Deposito {
+        -_valor: float // Alterado para _ para seguir convenção
+        +__init__(valor: float)
+        +valor: property
+        +registrar(conta: Conta) bool
+        +__str__() str
+    }
+
+    class Saque {
+        -_valor: float // Alterado para _ para seguir convenção
+        +__init__(valor: float)
+        +valor: property
+        +registrar(conta: Conta) bool
+        +__str__() str
+    }
+    Transacao <|-- Deposito
+    Transacao <|-- Saque
+
+    Banco "1" *-- "*" Cliente : gerencia
+    Banco "1" *-- "*" Conta : gerencia
+    Cliente "1" -- "1" Conta : possui (via Banco)
+    Conta "1" *-- "*" Transacao : registra >
