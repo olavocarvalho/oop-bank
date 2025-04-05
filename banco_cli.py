@@ -484,8 +484,8 @@ def main():
         elif opcao == "ac":
             print("\n--- Abrir Conta ---")
             cpf = solicitar_cpf()
-        if not cpf:
-            continue
+            if not cpf:
+                continue
             banco.criar_abrir_conta(cpf_cliente=cpf)
         elif opcao == "lc":
             banco.listar_clientes()
@@ -494,35 +494,37 @@ def main():
         elif opcao == "d":
             print("\n--- Depósito ---")
             cpf = solicitar_cpf()
-        if not cpf:
-            continue
+            if not cpf:
+                continue
             valor = solicitar_valor()
-        if valor is not None:
-            banco.realizar_deposito(cpf, valor)
+            if valor is not None:
+                banco.realizar_deposito(cpf, valor)
         elif opcao == "s":
             print("\n--- Saque ---")
             cpf = solicitar_cpf()
-        if not cpf:
-            continue
+            if not cpf:
+                continue
             valor = solicitar_valor()
-        if valor is not None:
-            banco.realizar_saque(cpf, valor)
+            if valor is not None:
+                banco.realizar_saque(cpf, valor)
         elif opcao == "t":
             print("\n--- Transferência ---")
             cpf_origem = solicitar_cpf("Informe o CPF da conta de ORIGEM: ")
-        if not cpf_origem:
-            continue
+            if not cpf_origem:
+                continue
             cpf_destino = solicitar_cpf("Informe o CPF da conta de DESTINO: ")
-        if not cpf_destino:
-            continue
+            if not cpf_destino:
+                continue
             valor = solicitar_valor()
+            if valor is not None:
+                banco.realizar_transferencia(cpf_origem, cpf_destino, valor)
         if valor is not None:
             banco.realizar_transferencia(cpf_origem, cpf_destino, valor)
         elif opcao == "e":
             print("\n--- Extrato ---")
             cpf = solicitar_cpf()
-        if not cpf:
-            continue
+            if not cpf:
+                continue
             banco.consultar_extrato(cpf)
         elif opcao == "q":
             print("\nSaindo do sistema. Até logo!")
