@@ -518,8 +518,8 @@ def main():
             valor = solicitar_valor()
             if valor is not None:
                 banco.realizar_transferencia(cpf_origem, cpf_destino, valor)
-        if valor is not None:
-            banco.realizar_transferencia(cpf_origem, cpf_destino, valor)
+            if valor is not None:
+                banco.realizar_transferencia(cpf_origem, cpf_destino, valor)
         elif opcao == "e":
             print("\n--- Extrato ---")
             cpf = solicitar_cpf()
